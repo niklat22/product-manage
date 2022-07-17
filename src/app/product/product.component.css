@@ -1,0 +1,8 @@
+.product-list{
+    display: flex;
+    justify-content: center;
+}
+.show-loader{
+    position: absolute; 
+    margin: -90rem 35rem;
+}

@@ -1,0 +1,79 @@
+<h1>{{projectSetting}}</h1>
+<h3 class="category-list">Category List</h3>
+<table class="table">
+    <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Name</th>
+        <th scope="col">Product Count</th>
+        <th scope="col">Add Product</th>
+    </tr>
+    <tbody>
+        <tr *ngFor="let c of categories">
+            <td>{{c.id}}</td>    
+            <td>{{c.name}}</td>    
+            <td>{{c.products}}</td> 
+            <td><button type="button" class="btn btn-primary" (click)="openModal(c.name)" data-toggle="modal" data-target="#modalProduct">Add</button></td> 
+        </tr>
+    </tbody>
+</table>
+<div class="show-loader" *ngIf="loader">
+    <img src="https://i.gifer.com/ZZ5H.gif" style="width: 30px;"/>
+</div>
+
+<div class="modal" [ngStyle]="{'display':display}" tabindex="-1" role="dialog" id="modalProduct" >
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Add Product</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="onCloseHandled()">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <h2 class="modal-title-2">{{CategoryName}}</h2>
+            <form [formGroup]="form">
+                <label for="category"> Category id: </label>
+                <select formControlName="category" class="form-select" [ngClass]="{ 'is-invalid': submitted && productForm.category.errors }">
+                    <option selected value="">Select Category</option>
+                    <option *ngFor="let opt of categories" [value]="opt.id">{{opt.name}}</option>
+                </select>
+                
+                <div *ngIf="submitted && productForm.category.errors" class="invalid-feedback">
+                    <div *ngIf="productForm.category.errors.required">Catgory is required</div>
+                </div>
+        
+                <label for="name"> Name: </label>
+                <input type="text" formControlName="name" class="form-control" [ngClass]="{ 'is-invalid': submitted && productForm.name.errors }">
+                <div *ngIf="submitted && productForm.name.errors" class="invalid-feedback">
+                    <div *ngIf="productForm.name.errors.required">Name is required</div>
+                </div>
+
+                <label for="price"> Price: </label>
+                <input type="text" formControlName="price" class="form-control" [ngClass]="{ 'is-invalid': submitted && productForm.price.errors }">
+                <div *ngIf="submitted && productForm.price.errors" class="invalid-feedback">
+                    <div *ngIf="productForm.price.errors.required">Price is required</div>
+                </div>
+                <label for="color"> Color: </label>
+                <div *ngFor="let n of colours; let i = index" formGroupName="colours">
+                    <input class="form-check-input" type="checkbox" id="flexCheckChecked" (change)="addCheck(n.name)">{{n.name}}
+                </div>
+                <div *ngIf="submitted && !validColours" class="invalid-feedback">
+                    <div *ngIf="!validColours">Please Select One color</div>
+                </div>
+    
+                <label for="tags"> Tags: </label>
+                <input type="text" formControlName="tags" class="form-control" #reference (keydown.enter)="addTags($event.target.value); reference.value='';">
+                <div style="display: flex;">
+                    <p class="tags-add" *ngFor="let tag of showTags">{{tag}}</p><i class="fa fa-close"></i>&nbsp;&nbsp;&nbsp;
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" (click)="onSubmit()" data-dismiss="modal">Save changes</button>
+          <button type="button" class="btn btn-secondary" (click)="onCloseHandled()">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="#" routerLink="/product">Products</a>

@@ -1,0 +1,16 @@
+.tags-add{
+    border: 1px solid #f8d6d6;
+    background-color: blue;
+    border-radius: 9px;
+    padding: 3px 10px;
+    color: #FFF;
+}
+
+.modal-title-2, .category-list{
+    display: flex;
+    justify-content: center;
+}
+.show-loader{
+    position: absolute; 
+    margin: -8rem 35rem;
+}
